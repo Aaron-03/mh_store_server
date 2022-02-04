@@ -1,5 +1,8 @@
 import { Sequelize } from 'sequelize-typescript';
+import Categories from '../models/category.model';
+import Customer from '../models/customer.model';
 import Product from '../models/product.model';
+import ProductImage from '../models/product_images.model';
 
 
 const sequelize = new Sequelize({
@@ -7,12 +10,17 @@ const sequelize = new Sequelize({
   dialect: 'mysql',
   username: 'root',
   password: 'admin',
-  models: [Product] // or [Player, Team],
+  models: [
+    Customer,
+    Product,
+    ProductImage,
+    Categories
+  ] // or [Player, Team],
 });
 
 
-async function createModels() {
-  await sequelize.sync({ force: true });
+async function createModels(_force = false) {
+  await sequelize.sync({ force: _force });
 }
 
 export {

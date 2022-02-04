@@ -1,14 +1,11 @@
-import Optional from 'sequelize';
-import { Table, Model, Sequelize, Column, PrimaryKey, ForeignKey, DataType, AutoIncrement } from 'sequelize-typescript';
+import { Table, Model, Column, PrimaryKey, ForeignKey, AutoIncrement, HasMany, AllowNull } from 'sequelize-typescript';
+import Category from './category.model';
+import ProductImage from './product_images.model';
 
-// interface ProductAttributes {
-//   id: number
-//   name: string
-// }
 
-// interface Product extends Optional<ProductAttributes, 'id'> {}
-
-@Table
+@Table({
+  timestamps: false
+})
 class Product extends Model {
 
   @PrimaryKey
@@ -18,6 +15,29 @@ class Product extends Model {
 
   @Column
   name: string;
+
+  @Column
+  description: string;
+
+  @AllowNull(false)
+  @Column
+  price: number;
+
+  @Column
+  cover: string;
+
+  @Column
+  slug: string;
+
+  @ForeignKey(() => Category)
+  @AllowNull(false)
+  @Column({
+    field: 'category_id'
+  })
+  categoryId: number;
+
+  @HasMany(() => ProductImage)
+  images: ProductImage[]
 }
 
 export default Product;
